@@ -6,7 +6,9 @@ app = Dash(__name__)
 
 server = app.server
 
-df = pd.read_csv("data.csv", names=["date", "time_of_day", "weight"])
+df = pd.read_csv("data.csv", names=["date", "time_of_day", "weight"]).replace(
+    {"r": "morning", "w": "evening"}
+)
 
 fig = px.line(df, x="date", y="weight", color="time_of_day")
 
