@@ -10,16 +10,11 @@ df = pd.read_csv("data.csv", names=["date", "time_of_day", "weight"]).replace(
     {"r": "morning", "w": "evening"}
 )
 
-fig = px.line(df, x="date", y="weight", color="time_of_day")
+fig = px.line(df, x="date", y="weight", color="time_of_day", line_shape="spline")
 
 app.layout = html.Div(
     children=[
-        html.H1(children="Hello Dash"),
-        html.Div(
-            children="""
-        Dash: A web application framework for your data.
-    """
-        ),
+        html.H1(children="Welcome"),
         dcc.Graph(id="example-graph", figure=fig),
     ]
 )
