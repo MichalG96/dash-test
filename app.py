@@ -3,6 +3,9 @@ import plotly.express as px
 from dash import Dash, dcc, html
 
 app = Dash(__name__)
+
+server = app.server
+
 df = pd.read_csv("data.csv", names=["date", "time_of_day", "weight"])
 
 fig = px.line(df, x="date", y="weight", color="time_of_day")
@@ -20,4 +23,4 @@ app.layout = html.Div(
 )
 
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run_server(debug=False)
