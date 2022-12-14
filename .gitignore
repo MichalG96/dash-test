@@ -1,3 +1,4 @@
 .idea/
 venv/
 deploy.cmd
+notebook

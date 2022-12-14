@@ -6,9 +6,9 @@ app = Dash(__name__)
 
 server = app.server
 
-df = pd.read_csv("data.csv", names=["date", "time_of_day", "weight"]).replace(
+df = pd.read_csv("data.csv").replace(
     {"r": "morning", "w": "evening"}
-)
+).dropna()
 
 # TODO: calculate the average for each day, plot moving average for the last 4/7 days
 
