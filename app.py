@@ -6,6 +6,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from dash import Dash, dcc, html
+from plotly.subplots import make_subplots
 
 app = Dash(__name__)
 
@@ -108,15 +109,20 @@ df = df.round(2)
 # print(df)
 # TODO: add legend, labels and axis names
 
-fig = px.line(
+bar_df = pd.DataFrame({"value": trendline_y}, index=trendline_x).join(
+    df["moving_average"]
+)
+bar_df["diff"] = bar_df["value"] - bar_df["moving_average"]
+bar_df["signum"] = np.where(bar_df["diff"] > 0, "forestgreen", "crimson")
+
+fig_line = px.line(
     df,
     markers=True,
     line_shape="spline",
-    height=700,  # in px
     # For some reason makes the trace disappear
     # hover_data={'weight_evening': ':.2f'}
 )
-fig.update_traces(connectgaps=True, textposition="bottom right", marker_size=5)
+fig_line.update_traces(connectgaps=True, textposition="bottom right", marker_size=5)
 
 # TODO:
 #   Adds text for each trace. Problem: text doesn't disappear when trace is hidden
@@ -127,7 +133,7 @@ def rand_func():
     return "red"
 
 
-fig.add_trace(
+fig_line.add_trace(
     go.Scatter(
         x=trendline_x,
         y=trendline_y,
@@ -139,20 +145,45 @@ fig.add_trace(
     )
 )
 
-fig.update_traces(textposition="bottom right")
-fig.add_vline(
-    x=DIET_START,
-    line_width=1,
-    line_dash="dash",
-    line_color="green",
-    # annotation="Diet start",
+fig_line.update_traces(textposition="bottom right")
+
+fig_bar = go.Figure(
+    go.Bar(name="Diff", y=bar_df["diff"], x=bar_df.index, marker_color=bar_df["signum"])
 )
+fig_bar.update_layout(barmode="stack")
+
+figures = [fig_line, fig_bar]
+fig = make_subplots(
+    rows=len(figures),
+    cols=1,
+    row_heights=[0.8, 0.2],
+    shared_xaxes=True,
+    vertical_spacing=0.01,
+)
+
+
+for i, figure in enumerate(figures):
+    for trace in range(len(figure["data"])):
+        fig.add_trace(figure["data"][trace], row=i + 1, col=1)
+
+fig.update_xaxes(dtick=86400000.0)
+# TODO: legend on yaxis every 0.5 kg
+fig.update_yaxes(dtick=0.25)
+fig.update_yaxes(minor=dict(dtick=0.25, showgrid=True))
 fig.update_layout(
     xaxis_range=[
         df.index[0] - datetime.timedelta(days=1),
         df.index[-1] + datetime.timedelta(days=1),
     ],
     yaxis_range=[min(df["weight_morning"] - 0.5), max(df["weight_evening"]) + 0.5],
+    height=750,  # in px
+)
+fig.add_vline(
+    x=DIET_START,
+    line_width=1,
+    line_dash="dash",
+    line_color="green",
+    # annotation="Diet start",
 )
 app.layout = html.Div(
     children=[
