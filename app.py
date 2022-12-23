@@ -166,15 +166,21 @@ for i, figure in enumerate(figures):
     for trace in range(len(figure["data"])):
         fig.add_trace(figure["data"][trace], row=i + 1, col=1)
 
-fig.update_xaxes(dtick=86400000.0)
-# TODO: legend on yaxis every 0.5 kg
-fig.update_yaxes(dtick=0.25, ticklabelstep=2)
+
 fig.update_layout(
-    xaxis_range=[
-        df.index[0] - datetime.timedelta(days=1),
-        df.index[-1] + datetime.timedelta(days=1),
-    ],
-    yaxis_range=[min(df["weight_morning"] - 0.5), max(df["weight_evening"]) + 0.5],
+    xaxis=dict(
+        range=[
+            df.index[0] - datetime.timedelta(days=1),
+            df.index[-1] + datetime.timedelta(days=1),
+        ],
+        dtick=86400000.0,
+    ),
+    yaxis=dict(
+        range=[min(df["weight_morning"] - 0.5), max(df["weight_evening"]) + 0.3],
+        dtick=0.5,
+        tick0=90.0,
+        ticklabelstep=2,
+    ),
     height=750,  # in px
 )
 fig.add_vline(
