@@ -116,7 +116,7 @@ fig = px.line(
     # For some reason makes the trace disappear
     # hover_data={'weight_evening': ':.2f'}
 )
-fig.update_traces(connectgaps=True, textposition="bottom right", marker_size=6)
+fig.update_traces(connectgaps=True, textposition="bottom right", marker_size=5)
 
 # TODO:
 #   Adds text for each trace. Problem: text doesn't disappear when trace is hidden
