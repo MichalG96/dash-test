@@ -168,8 +168,7 @@ for i, figure in enumerate(figures):
 
 fig.update_xaxes(dtick=86400000.0)
 # TODO: legend on yaxis every 0.5 kg
-fig.update_yaxes(dtick=0.25)
-fig.update_yaxes(minor=dict(dtick=0.25, showgrid=True))
+fig.update_yaxes(dtick=0.25, ticklabelstep=2)
 fig.update_layout(
     xaxis_range=[
         df.index[0] - datetime.timedelta(days=1),
