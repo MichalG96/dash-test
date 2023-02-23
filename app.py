@@ -42,11 +42,15 @@ def get_start_avg_weight(df: pd.DataFrame) -> float:
 def get_trendline(df: pd.DataFrame, weekly_coefficient: float = 0.5) -> tuple:
     start_avg_weight = get_start_avg_weight(df)
     x_start = DIET_START
-    x_end = DIET_START + datetime.timedelta(days=100)
+    x_end = DIET_START + datetime.timedelta(days=150)
     x = pd.date_range(start=x_start, end=x_end)
     daily_coefficient = weekly_coefficient / 7
     end_avg_weight = start_avg_weight - (daily_coefficient * len(x))
-    y = np.round(np.squeeze(np.linspace(start_avg_weight, end_avg_weight, len(x))), 2)
+    y = np.clip(
+        np.round(np.squeeze(np.linspace(start_avg_weight, end_avg_weight, len(x))), 2),
+        88.0,
+        None,
+    )
     return x, y
 
 
@@ -142,7 +146,9 @@ fig_line.add_trace(
         mode="lines",
         name="Expected loss rate",
         fill="tonexty",
-        fillcolor="rgba(0,0,0, 0.2)"
+        fillcolor="rgba(0,0,0, 0.2)",
+        # line_shape="spline",
+        # line_smoothing=1.3
         # fillcolor=rand_func()
     )
 )
