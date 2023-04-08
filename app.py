@@ -16,7 +16,7 @@ DIET_START = datetime.date(2022, 12, 13)
 
 
 def prepare_data() -> pd.DataFrame:
-    df_parquet = pd.read_parquet("data_2022.12.08-2023.02.10.parquet").dropna()
+    df_parquet = pd.read_parquet("data/data.parquet").dropna()
     df_current = pd.read_csv("data_current.csv").dropna()
     df = pd.concat([df_parquet, df_current], ignore_index=True)
     df["date"] = pd.to_datetime(df["date"]).dt.date
