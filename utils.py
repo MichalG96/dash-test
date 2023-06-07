@@ -38,7 +38,7 @@ def callback():
 
 def rename_files(old_name: str, new_name: str) -> None:
     path = Path(old_name)
-    path.rename(new_name)
+    path.replace(new_name)
 
 
 def create_skeleton(start_date: datetime.date, tod: TimeOfDay) -> None:
