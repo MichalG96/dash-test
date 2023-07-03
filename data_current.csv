@@ -48,9 +48,9 @@ date,time_of_day,weight
 2023-06-30,evening,89.6
 2023-07-01,morning,88.0
 2023-07-01,evening,88.6
-2023-07-02,morning,
-2023-07-02,evening,
-2023-07-03,morning,
+2023-07-02,morning,88.0
+2023-07-02,evening,88.7
+2023-07-03,morning,87.5
 2023-07-03,evening,
 2023-07-04,morning,
 2023-07-04,evening,
