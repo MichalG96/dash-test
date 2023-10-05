@@ -130,6 +130,7 @@ fig_line = px.line(
 )
 fig_line.update_traces(connectgaps=True, textposition="bottom right", marker_size=5)
 
+
 # TODO:
 #   Adds text for each trace. Problem: text doesn't disappear when trace is hidden
 # add_weight_text(df, fig)
@@ -169,11 +170,9 @@ fig = make_subplots(
     vertical_spacing=0.01,
 )
 
-
 for i, figure in enumerate(figures):
     for trace in range(len(figure["data"])):
         fig.add_trace(figure["data"][trace], row=i + 1, col=1)
-
 
 fig.update_layout(
     xaxis=dict(
