@@ -42,7 +42,7 @@ def get_start_avg_weight(df: pd.DataFrame) -> float:
 def get_trendline(df: pd.DataFrame, weekly_coefficient: float = 0.5) -> tuple:
     start_avg_weight = get_start_avg_weight(df)
     x_start = DIET_START
-    x_end = DIET_START + datetime.timedelta(days=250)
+    x_end = DIET_START + datetime.timedelta(days=400)
     x = pd.date_range(start=x_start, end=x_end)
     daily_coefficient = weekly_coefficient / 7
     end_avg_weight = start_avg_weight - (daily_coefficient * len(x))
